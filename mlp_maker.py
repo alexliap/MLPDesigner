@@ -1,11 +1,14 @@
 from tkinter import *
 import tkinter.filedialog
+from PIL import ImageTk, Image
 
 
 class MlpMaker(tkinter.Tk):
     def __init__(self):
         self.App = Tk()
         self.App.title('MLP Designer')
+        self.App.call('wm', 'iconphoto', self.App._w,
+                      ImageTk.PhotoImage(Image.open('icons8-neural-network-64.ico')))
         self.App.geometry('1000x600')
         self.App['background'] = 'white'
 
