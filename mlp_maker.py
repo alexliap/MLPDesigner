@@ -5,8 +5,8 @@ import tkinter.filedialog
 class MlpMaker(tkinter.Tk):
     def __init__(self):
         self.App = Tk()
-        self.App.title('MLP Maker')
-        self.App.geometry('900x600')
+        self.App.title('MLP Designer')
+        self.App.geometry('1000x600')
         self.App['background'] = 'white'
 
         self.layers_label = Label(self.App, text='Layers')
@@ -130,7 +130,7 @@ class MlpMaker(tkinter.Tk):
         self.dataset_choose.grid(row=r+5, column=6, padx=25, pady=5)
 
     def get_directory(self):
-        dataset_dir = tkinter.filedialog.askopenfilename()
+        dataset_dir = tkinter.filedialog.askopenfilename(filetypes=[('CSV Files', '*.csv')])
         self.dataset_entry.insert(index=0, string=dataset_dir)
 
     def get_mlp_init_values(self):

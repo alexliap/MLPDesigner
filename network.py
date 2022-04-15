@@ -1,6 +1,6 @@
 from pytorch_lightning import LightningModule
 from torch.nn import ModuleList, Linear, ReLU, Sigmoid, Tanh, Dropout, MSELoss, \
-                    BCELoss, CrossEntropyLoss
+                     BCELoss, CrossEntropyLoss
 from torch.optim import Adam, SGD
 import torch.nn.functional as F
 from tkinter import *
@@ -31,7 +31,6 @@ class MlpNetwok(LightningModule):
         self.optim = optim
         self.dropout = Dropout(dropout/100)
         self.lr = lr
-        # self.dev = device
         self.layer_list = ModuleList()
         for i in range(self.num_of_layers-1):
             self.layer_list.append(Linear(layer_sizes[i], layer_sizes[i+1]))
@@ -69,7 +68,7 @@ class MlpNetwok(LightningModule):
         x, y = train_batch
         out = self.forward(x)
         loss = self.loss_f(out, y)
-        # self.train_loss_values.append(loss)
+        self.train_loss_values.append(loss)
         return loss
 
     def validation_step(self, val_batch, batch_idx):

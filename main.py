@@ -4,6 +4,7 @@ from network import MlpNetwok
 from pytorch_lightning import Trainer
 import pandas as pd
 import data_processing
+from numpy import round
 
 
 def train():
@@ -12,7 +13,8 @@ def train():
                           parameters['layer_sizes'],
                           parameters['activ_f'], parameters['dropout'],
                           parameters['optim'], parameters['loss_f'],
-                          parameters['lr']).double()
+                          parameters['lr'])
+    neuroniko.double()
     if parameters['device'] == 'gpu':
         trainer = Trainer(gpus=1, max_epochs=parameters['epochs'])
     else:
@@ -22,6 +24,15 @@ def train():
     train_loader, val_loader = data_processing.get_dataset(train_dataset)
 
     trainer.fit(neuroniko, train_loader, val_loader)
+
+    train_status = Label(app.App, text='Training Status: Done', width=20)
+    train_status.grid(row=neuroniko.num_of_layers+6, column=4, padx=25,
+                      pady=5)
+    loss_value = neuroniko.train_loss_values[-1].item()
+    loss = Label(app.App, text='Last Epoch loss values: '+str(round(loss_value, 3)),
+                 width=25)
+    loss.grid(row=neuroniko.num_of_layers + 7, column=4, padx=25,
+                      pady=5)
 
 
 if __name__ == '__main__':
