@@ -3,8 +3,6 @@ from torch.nn import ModuleList, Linear, ReLU, Sigmoid, Tanh, Dropout, MSELoss, 
                      BCELoss, CrossEntropyLoss
 from torch.optim import Adam, SGD
 import torch.nn.functional as F
-from tkinter import *
-from tkinter import ttk
 
 
 class MlpNetwok(LightningModule):
@@ -37,16 +35,6 @@ class MlpNetwok(LightningModule):
 
         self.train_loss_values = []
         self.val_loss_values = []
-        # Progress Bar window
-        # self.pb_window = Tk()
-        # self.pb_window.title('Progress Bar')
-        # self.pb_window.geometry('300x100')
-        # self.pb_window['background'] = 'white'
-        # self.pb = ttk.Progressbar(self.pb_window, orient='horizontal',
-        #                           mode='indeterminate', length=280)
-        # self.pb.pack()
-        # self.epoch_label = Label(self.pb_window, text='Epoch: '+str(self.epoch))
-        # self.epoch_label.pack(padx=25, pady=5)
 
     def forward(self, x):
         for i in range(self.num_of_layers-2):
@@ -75,7 +63,7 @@ class MlpNetwok(LightningModule):
         x, y = val_batch
         out = self.forward(x)
         loss = self.loss_f(out, y)
-        # self.val_loss_values.append(loss)
+        self.val_loss_values.append(loss)
         return loss
 
     # def training_epoch_end(self, outputs):

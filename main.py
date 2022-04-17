@@ -1,10 +1,9 @@
-from tkinter import *
+import tkinter
 from mlp_maker import MlpMaker
 from network import MlpNetwok
 from pytorch_lightning import Trainer
 import pandas as pd
 import data_processing
-from numpy import round
 
 
 def train():
@@ -25,34 +24,27 @@ def train():
 
     trainer.fit(neuroniko, train_loader, val_loader)
 
-    train_status = Label(app.App, text='Training Status: Done', width=20)
+    train_status = tkinter.Label(app.App, text='Training Status: Done', width=20)
     train_status.grid(row=neuroniko.num_of_layers+6, column=4, padx=25,
                       pady=5)
-    loss_value = neuroniko.train_loss_values[-1].item()
-    loss = Label(app.App, text='Last Epoch loss values: '+str(round(loss_value, 3)),
-                 width=25)
-    loss.grid(row=neuroniko.num_of_layers + 7, column=4, padx=25,
-                      pady=5)
+
+    data_processing.train_loss_plot(neuroniko.train_loss_values)
 
 
 if __name__ == '__main__':
     app = MlpMaker()
 
-    refresh_button = Button(app.App, text="Reset", command=app.refresh_window,
-                            relief='groove', borderwidth=4)
+    refresh_button = tkinter.Button(app.App, text="Reset",
+                                    command=app.refresh_window, relief='groove',
+                                    borderwidth=4)
     refresh_button.place(x=700, y=500, relheight=0.08, relwidth=0.08)
 
-    button1 = Button(app.App, text='Next', command=app.layer_maker,
-                     relief='groove',
-                     borderwidth=4)
+    button1 = tkinter.Button(app.App, text='Next', command=app.layer_maker,
+                             relief='groove', borderwidth=4)
     button1.grid(row=0, column=3, padx=25, pady=5)
 
-    # button2 = Button(app.App, text='Get', command=app.get_mlp_init_values,
-    #                  relief='groove', borderwidth=4)
-    # button2.place(x=100, y=500, relheight=0.08, relwidth=0.08)
-
-    train_b = Button(app.App, text='Train', command=train, relief='groove',
-                     borderwidth=4, background='green')
+    train_b = tkinter.Button(app.App, text='Train', command=train,
+                             relief='groove', borderwidth=4, background='green')
     train_b.place(x=600, y=500, relheight=0.08, relwidth=0.08)
 
     app.App.mainloop()
