@@ -41,16 +41,25 @@ def get_dataset(df: DataFrame):
     return train_loader, test_loader
 
 
-def train_loss_plot(train_loss: list):
-    loss = []
+def train_loss_graphs(train_loss: list, val_loss: list):
+    train_loss_values = []
     for i in range(len(train_loss)):
-        loss.append(train_loss[i].cpu().detach().numpy())
+        train_loss_values.append(train_loss[i].cpu().detach().numpy())
 
-    fig, ax = plt.subplots(figsize=(4, 4))
-    ax.plot(range(len(loss)), loss)
-    ax.set_title('Train Loss')
-    ax.set_xlabel('Steps')
-    plt.show()
+    val_loss_values = []
+    for i in range(len(val_loss)):
+        val_loss_values.append(val_loss[i].cpu().detach().numpy())
+
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    ax1.plot(range(len(train_loss_values)), train_loss_values)
+    ax1.set_title('Train Loss')
+    ax1.set_xlabel('Steps')
+
+    ax2.plot(range(len(val_loss_values)), val_loss_values)
+    ax2.set_title('Validation Loss')
+    ax2.set_xlabel('Steps')
+
+    # plt.show()
 
     train_window = tkinter.Toplevel()
     train_window.title('Loss Graphs')
@@ -64,29 +73,3 @@ def train_loss_plot(train_loss: list):
     toolbar = NavigationToolbar2Tk(canvas, train_window)
     toolbar.update()
     canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-
-
-def val_loss_plot(val_loss: list):
-    loss = []
-    for i in range(len(val_loss)):
-        loss.append(val_loss[i].cpu().detach().numpy())
-
-    fig, ax = plt.subplots(figsize=(4, 4))
-    ax.plot(range(len(loss)), loss)
-    ax.set_title('Validation Loss')
-    ax.set_xlabel('Steps')
-    plt.show()
-
-    val_window = tkinter.Toplevel()
-    val_window.title('Loss Graphs')
-    val_window.geometry('480x480')
-    val_window['background'] = 'white'
-    val_window.tk.call('wm', 'iconphoto', val_window._w,
-                         ImageTk.PhotoImage(Image.open('icons8-neural-network-64.ico')))
-    canvas = FigureCanvasTkAgg(fig, master=val_window)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-    toolbar = NavigationToolbar2Tk(canvas, val_window)
-    toolbar.update()
-    canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-

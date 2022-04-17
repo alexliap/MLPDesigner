@@ -28,8 +28,8 @@ def train():
     train_status.grid(row=neuroniko.num_of_layers+6, column=4, padx=25,
                       pady=5)
 
-    data_processing.train_loss_plot(neuroniko.train_loss_values)
-    data_processing.val_loss_plot(neuroniko.val_loss_values)
+    data_processing.train_loss_graphs(neuroniko.train_loss_values,
+                                    neuroniko.val_loss_values)
 
 
 if __name__ == '__main__':
