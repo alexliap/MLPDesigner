@@ -65,6 +65,7 @@ def train_loss_plot(train_loss: list):
     toolbar.update()
     canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
+
 def val_loss_plot(val_loss: list):
     loss = []
     for i in range(len(val_loss)):
