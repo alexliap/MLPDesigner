@@ -65,4 +65,27 @@ def train_loss_plot(train_loss: list):
     toolbar.update()
     canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
+def val_loss_plot(val_loss: list):
+    loss = []
+    for i in range(len(val_loss)):
+        loss.append(val_loss[i].cpu().detach().numpy())
+
+    fig, ax = plt.subplots(figsize=(4, 4))
+    ax.plot(range(len(loss)), loss)
+    ax.set_title('Validation Loss')
+    ax.set_xlabel('Steps')
+    plt.show()
+
+    val_window = tkinter.Toplevel()
+    val_window.title('Loss Graphs')
+    val_window.geometry('480x480')
+    val_window['background'] = 'white'
+    val_window.tk.call('wm', 'iconphoto', val_window._w,
+                         ImageTk.PhotoImage(Image.open('icons8-neural-network-64.ico')))
+    canvas = FigureCanvasTkAgg(fig, master=val_window)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+    toolbar = NavigationToolbar2Tk(canvas, val_window)
+    toolbar.update()
+    canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 

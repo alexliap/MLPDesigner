@@ -29,6 +29,7 @@ def train():
                       pady=5)
 
     data_processing.train_loss_plot(neuroniko.train_loss_values)
+    data_processing.val_loss_plot(neuroniko.val_loss_values)
 
 
 if __name__ == '__main__':
