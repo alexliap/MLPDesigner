@@ -65,6 +65,12 @@ class MlpMaker(tkinter.Tk):
                                              offvalue='')
         self.tr_device_chk_gpu.deselect()
         self.tr_device_chk_cpu.deselect()
+        # Task at hand
+        self.task_label = Label(self.App, text='Task', width=15)
+        self.task = StringVar()
+        self.task_menu = OptionMenu(self.App, self.task, 'Regression',
+                                    'Binary Classification',
+                                    'Classification')
         # Dataset Entry
         self.dataset_label = Label(self.App, text='Train Dataset', width=15)
         self.dataset_entry = Entry(self.App, background='white', width=80)
@@ -127,6 +133,9 @@ class MlpMaker(tkinter.Tk):
         self.tr_device_label.grid(row=7, column=4, padx=25, pady=5)
         self.tr_device_chk_cpu.grid(row=7, column=5, padx=25, pady=5)
         self.tr_device_chk_gpu.grid(row=7, column=6, padx=25, pady=5)
+        # Task
+        self.task_label.grid(row=8, column=4, padx=25, pady=5)
+        self.task_menu.grid(row=8, column=5, padx=25, pady=5)
         # Dataset entry
         self.dataset_label.grid(row=r+5, column=0, padx=25, pady=5)
         self.dataset_entry.grid(row=r+5, column=1, columnspan=5, padx=25, pady=5)
@@ -153,6 +162,7 @@ class MlpMaker(tkinter.Tk):
         mlp_values['lr'] = float(self.lr_entry.get())
         mlp_values['device'] = self.tr_device.get()
         mlp_values['epochs'] = int(self.ep_entry.get())
+        mlp_values['task'] = self.task.get()
         mlp_values['dataset_path'] = self.dataset_entry.get()
 
         print(mlp_values)

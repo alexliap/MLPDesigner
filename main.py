@@ -12,7 +12,7 @@ def train():
                           parameters['layer_sizes'],
                           parameters['activ_f'], parameters['dropout'],
                           parameters['optim'], parameters['loss_f'],
-                          parameters['lr'])
+                          parameters['lr'], parameters['task'])
     neuroniko.double()
     if parameters['device'] == 'gpu':
         trainer = Trainer(gpus=1, max_epochs=parameters['epochs'])
@@ -28,8 +28,23 @@ def train():
     train_status.grid(row=neuroniko.num_of_layers+6, column=4, padx=25,
                       pady=5)
 
-    data_processing.train_loss_graphs(neuroniko.train_loss_values,
-                                    neuroniko.val_loss_values)
+    if parameters['task'] != 'Regression':
+        lines1 = data_processing.train_loss_graphs(neuroniko.train_loss_values,
+                                                   neuroniko.val_loss_values)
+        lines2 = data_processing.train_acc_scores(neuroniko.train_acc,
+                                                  neuroniko.val_acc)
+        data_processing.merge_graphs(lines1, lines2)
+    else:
+        data_processing.train_loss_graphs(neuroniko.train_loss_values,
+                                          neuroniko.val_loss_values,
+                                          show=True)
+
+
+def predict():
+    model = MlpNetwok.load_from_checkpoint('lightning_logs/version_19/checkpoints/epoch=14-step=105.ckpt')
+    trainer = Trainer()
+    trainer.predict(model, )
+    pass
 
 
 if __name__ == '__main__':
@@ -46,6 +61,10 @@ if __name__ == '__main__':
 
     train_b = tkinter.Button(app.App, text='Train', command=train,
                              relief='groove', borderwidth=4, background='green')
-    train_b.place(x=600, y=500, relheight=0.08, relwidth=0.08)
+    train_b.place(x=500, y=500, relheight=0.08, relwidth=0.08)
+
+    test_b = tkinter.Button(app.App, text='Test', command=train,
+                             relief='groove', borderwidth=4, background='red')
+    test_b.place(x=600, y=500, relheight=0.08, relwidth=0.08)
 
     app.App.mainloop()

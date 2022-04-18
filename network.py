@@ -1,3 +1,4 @@
+import torch
 from pytorch_lightning import LightningModule
 from torch.nn import ModuleList, Linear, ReLU, Sigmoid, Tanh, Dropout, MSELoss, \
                      BCELoss, CrossEntropyLoss
@@ -7,7 +8,7 @@ import torch.nn.functional as F
 
 class MlpNetwok(LightningModule):
     def __init__(self, num_of_layers, layer_sizes, activ_f, dropout, optim,
-                 loss_f, lr):
+                 loss_f, lr, task):
         super(MlpNetwok, self).__init__()
         # Activation Function
         if activ_f == 'ReLU':
@@ -29,12 +30,18 @@ class MlpNetwok(LightningModule):
         self.optim = optim
         self.dropout = Dropout(dropout/100)
         self.lr = lr
+        self.task = task
         self.layer_list = ModuleList()
         for i in range(self.num_of_layers-1):
             self.layer_list.append(Linear(layer_sizes[i], layer_sizes[i+1]))
 
         self.train_loss_values = []
+        self.train_acc = []
+
         self.val_loss_values = []
+        self.val_acc = []
+
+        self.predictions = []
 
     def forward(self, x):
         for i in range(self.num_of_layers-2):
@@ -57,6 +64,11 @@ class MlpNetwok(LightningModule):
         out = self.forward(x)
         loss = self.loss_f(out, y)
         self.train_loss_values.append(loss)
+        if self.task != 'Regression':
+            out = torch.round(out)
+            acc = 100*sum(out == y)/len(y)
+            self.train_acc.append(acc)
+
         return loss
 
     def validation_step(self, val_batch, batch_idx):
@@ -64,7 +76,17 @@ class MlpNetwok(LightningModule):
         out = self.forward(x)
         loss = self.loss_f(out, y)
         self.val_loss_values.append(loss)
+        if self.task != 'Regression':
+            out = torch.round(out)
+            acc = 100 * sum(out == y) / len(y)
+            self.val_acc.append(acc)
+
         return loss
 
-    # def training_epoch_end(self, outputs):
-    #     self.pb.step()
+    def predict_step(self, batch, batch_idx, dataloader_idx: int = 0):
+        x = batch
+        out = self.forward(x)
+        out = torch.round(out)
+        for pred in out:
+            self.predictions.append(pred)
+        # return out
