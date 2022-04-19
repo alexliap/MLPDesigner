@@ -63,8 +63,8 @@ if __name__ == '__main__':
                              relief='groove', borderwidth=4, background='green')
     train_b.place(x=500, y=500, relheight=0.08, relwidth=0.08)
 
-    test_b = tkinter.Button(app.App, text='Test', command=train,
-                             relief='groove', borderwidth=4, background='red')
-    test_b.place(x=600, y=500, relheight=0.08, relwidth=0.08)
+    predict_b = tkinter.Button(app.App, text='Predict', command=train,
+                               relief='groove', borderwidth=4, background='red')
+    predict_b.place(x=600, y=500, relheight=0.08, relwidth=0.08)
 
     app.App.mainloop()
