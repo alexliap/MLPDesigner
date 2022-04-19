@@ -5,6 +5,8 @@ from PIL import ImageTk, Image
 
 class MlpMaker(tkinter.Tk):
     def __init__(self):
+        # Here, all the buttons, entries and labels are created for the whole
+        # program.
         self.App = Tk()
         self.App.title('MLP Designer')
         self.App.call('wm', 'iconphoto', self.App._w,
@@ -79,6 +81,8 @@ class MlpMaker(tkinter.Tk):
                                       relief='groove', borderwidth=4)
 
     def layer_maker(self):
+        # Managing the labels and entries for the amount of layers selected by
+        # the user.
         layers = int(self.num_of_layers.get())
 
         self.labels.append(Label(self.App, text='Input Layer', width=10))
@@ -104,6 +108,7 @@ class MlpMaker(tkinter.Tk):
         self.to_details.grid(row=layers, column=3, padx=25, pady=5)
 
     def designer_details(self):
+        # Configuring the rest of the window for the rest of the parameters.
         self.to_details['state'] = DISABLED
         # Activation function dropdown menu
         self.activ_label.grid(row=1, column=4, padx=25, pady=5)
@@ -127,6 +132,7 @@ class MlpMaker(tkinter.Tk):
         self.to_last_details.grid(row=6, column=6, padx=25, pady=5)
 
     def last_details(self):
+        # Configuring the rest of the window for the last parameters.
         self.to_last_details['state'] = DISABLED
         r = int(self.num_of_layers.get())
         # Training Device
@@ -146,6 +152,8 @@ class MlpMaker(tkinter.Tk):
         self.dataset_entry.insert(index=0, string=dataset_dir)
 
     def get_mlp_init_values(self):
+        # Function to get the values from every entry, checkbox or menu to
+        # initiate the MLP.
         mlp_values = dict()
         mlp_values['num_of_layers'] = int(self.num_of_layers.get())
         layer_sizes = []
@@ -169,7 +177,7 @@ class MlpMaker(tkinter.Tk):
         return mlp_values
 
     def refresh_window(self):
-        # Initialize and delete everything again
+        # Initialize and delete everything.
         self.to_details['state'] = NORMAL
         self.to_last_details['state'] = NORMAL
 

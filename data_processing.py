@@ -20,7 +20,7 @@ def get_dataset(df: DataFrame):
 
     x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.4,
                                                         random_state=50)
-
+    # Scaling the data.
     scaler = StandardScaler()
     scaler.fit(x_train)
     x_train = scaler.transform(x_train)
@@ -42,6 +42,9 @@ def get_dataset(df: DataFrame):
 
 
 def train_loss_graphs(train_loss: list, val_loss: list, show=False):
+    # Here the standalone graphs for the train and validation losses
+    # are created. They are not shown on a different window by default
+    # in case other graphs need to be created.
     train_loss_values = []
     for i in range(len(train_loss)):
         train_loss_values.append(train_loss[i].cpu().detach().numpy())
@@ -68,6 +71,9 @@ def train_loss_graphs(train_loss: list, val_loss: list, show=False):
 
 
 def train_acc_scores(train_acc: list, val_acc: list, show=False):
+    # Here the standalone graphs for the train and validation accuracy
+    # are created. They are not shown on a different window by default
+    # in case other graphs need to be created.
     train_acc_values = []
     for i in range(len(train_acc)):
         train_acc_values.append(train_acc[i].cpu().detach().numpy())
@@ -94,6 +100,7 @@ def train_acc_scores(train_acc: list, val_acc: list, show=False):
 
 
 def merge_graphs(loss_lines: tuple, acc_lines: tuple):
+    # The merging of all the graphs into one figure.
     fig, axs = plt.subplots(2, 2)
     axs[0, 0].plot(loss_lines[0][0].get_data()[0], loss_lines[0][0].get_data()[1])
     axs[0, 1].plot(loss_lines[1][0].get_data()[0], loss_lines[1][0].get_data()[1])
@@ -118,6 +125,7 @@ def merge_graphs(loss_lines: tuple, acc_lines: tuple):
 
 
 def put_em_on(fig: plt.Figure()):
+    # PLacement of graphs to a separate tkinter window.
     window = tkinter.Toplevel()
     window.title('Loss Graphs')
     window.geometry('640x480')

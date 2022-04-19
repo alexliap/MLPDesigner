@@ -83,10 +83,10 @@ class MlpNetwok(LightningModule):
 
         return loss
 
-    def predict_step(self, batch, batch_idx, dataloader_idx: int = 0):
-        x = batch
-        out = self.forward(x)
-        out = torch.round(out)
-        for pred in out:
-            self.predictions.append(pred)
-        # return out
+    # def predict_step(self, batch, batch_idx, dataloader_idx: int = 0):
+    #     x = batch
+    #     out = self.forward(x)
+    #     out = torch.round(out)
+    #     for pred in out:
+    #         self.predictions.append(pred)
+    #     return out

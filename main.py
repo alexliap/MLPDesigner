@@ -40,11 +40,11 @@ def train():
                                           show=True)
 
 
-def predict():
-    model = MlpNetwok.load_from_checkpoint('lightning_logs/version_19/checkpoints/epoch=14-step=105.ckpt')
-    trainer = Trainer()
-    trainer.predict(model, )
-    pass
+# def predict():
+#     model = MlpNetwok.load_from_checkpoint('lightning_logs/version_19/checkpoints/epoch=14-step=105.ckpt')
+#     trainer = Trainer()
+#     trainer.predict(model, )
+#     pass
 
 
 if __name__ == '__main__':
