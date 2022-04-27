@@ -35,10 +35,10 @@ def get_dataset(df: DataFrame):
     train_dt = TensorDataset(x_train, y_train)
     train_loader = DataLoader(train_dt, batch_size=2048)
 
-    test_dt = TensorDataset(x_val, y_val)
-    test_loader = DataLoader(test_dt, batch_size=2048)
+    val_dt = TensorDataset(x_val, y_val)
+    val_loader = DataLoader(val_dt, batch_size=2048)
 
-    return train_loader, test_loader
+    return train_loader, val_loader
 
 
 def train_loss_graphs(train_loss: list, val_loss: list, show=False):
