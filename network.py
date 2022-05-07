@@ -72,12 +72,20 @@ class MlpNetwok(LightningModule):
         out = out.to(torch.float32)
         loss = self.loss_f(out, y)
         self.train_loss_values.append(loss)
-        if self.task != 'Regression':
-            out = torch.round(out)
-            acc = 100*sum(out == y)/len(y)
-            self.train_acc.append(acc)
 
-        return loss
+        return {'loss': loss, 'predictions': torch.round(out), 'targets': y}
+
+    def training_epoch_end(self, training_step_outputs):
+        if self.task != 'Regression':
+            all_preds = []
+            length = 0
+            for d in training_step_outputs:
+                length = length + d['predictions'].size(0)
+                all_preds.append(sum(d['predictions'] == d['targets']))
+            acc = 100*sum(all_preds) / length
+            self.train_acc.append(acc)
+        else:
+            pass
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
@@ -87,12 +95,20 @@ class MlpNetwok(LightningModule):
         out = out.to(torch.float32)
         loss = self.loss_f(out, y)
         self.val_loss_values.append(loss)
-        if self.task != 'Regression':
-            out = torch.round(out)
-            acc = 100 * sum(out == y) / len(y)
-            self.val_acc.append(acc)
 
-        return loss
+        return {'loss': loss, 'predictions': torch.round(out), 'targets': y}
+
+    def validation_epoch_end(self, val_step_outputs):
+        if self.task != 'Regression':
+            all_preds = []
+            length = 0
+            for d in val_step_outputs:
+                length = length + d['predictions'].size(0)
+                all_preds.append(sum(d['predictions'] == d['targets']))
+            acc = 100*sum(all_preds) / length
+            self.val_acc.append(acc)
+        else:
+            pass
 
     # def predict_step(self, batch, batch_idx, dataloader_idx: int = 0):
     #     x = batch
