@@ -13,13 +13,17 @@ def train():
                           parameters['activ_f'], parameters['dropout'],
                           parameters['optim'], parameters['loss_f'],
                           parameters['lr'], parameters['task'])
-    neuroniko.double()
+
     if parameters['device'] == 'gpu':
         trainer = Trainer(gpus=1, max_epochs=parameters['epochs'])
     else:
         trainer = Trainer(gpus=0, max_epochs=parameters['epochs'])
-    train_dataset = pd.read_csv(parameters['dataset_path']).drop('Unnamed: 0',
-                                                                 axis=1)
+    train_dataset = pd.read_csv(parameters['dataset_path'])
+
+    if 'Unnamed: 0' in train_dataset.columns:
+        train_dataset.drop('Unnamed: 0', axis=1, inplace=True)
+
+    train_dataset = train_dataset.select_dtypes(exclude='object')
     train_loader, val_loader = data_processing.get_dataset(train_dataset)
 
     trainer.fit(neuroniko, train_loader, val_loader)

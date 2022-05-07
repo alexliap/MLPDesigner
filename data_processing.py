@@ -33,10 +33,10 @@ def get_dataset(df: DataFrame):
     y_val = torch.from_numpy(y_val)
 
     train_dt = TensorDataset(x_train, y_train)
-    train_loader = DataLoader(train_dt, batch_size=2048)
+    train_loader = DataLoader(train_dt, batch_size=16384)
 
     val_dt = TensorDataset(x_val, y_val)
-    val_loader = DataLoader(val_dt, batch_size=2048)
+    val_loader = DataLoader(val_dt, batch_size=16384)
 
     return train_loader, val_loader
 
