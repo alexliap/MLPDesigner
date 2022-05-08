@@ -18,7 +18,7 @@ def get_dataset(df: DataFrame):
 
     y = y.reshape(len(y), 1)
 
-    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.4,
+    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2,
                                                         random_state=50)
     # Scaling the data.
     scaler = StandardScaler()
@@ -26,17 +26,17 @@ def get_dataset(df: DataFrame):
     x_train = scaler.transform(x_train)
     x_val = scaler.transform(x_val)
 
-    x_train = torch.from_numpy(x_train)
-    y_train = torch.from_numpy(y_train)
+    x_train = torch.from_numpy(x_train).to(torch.float32)
+    y_train = torch.from_numpy(y_train).to(torch.float32)
 
-    x_val = torch.from_numpy(x_val)
-    y_val = torch.from_numpy(y_val)
+    x_val = torch.from_numpy(x_val).to(torch.float32)
+    y_val = torch.from_numpy(y_val).to(torch.float32)
 
     train_dt = TensorDataset(x_train, y_train)
-    train_loader = DataLoader(train_dt, batch_size=16384)
+    train_loader = DataLoader(train_dt, batch_size=2048)
 
     val_dt = TensorDataset(x_val, y_val)
-    val_loader = DataLoader(val_dt, batch_size=16384)
+    val_loader = DataLoader(val_dt, batch_size=2048)
 
     return train_loader, val_loader
 
@@ -109,16 +109,22 @@ def merge_graphs(loss_lines: tuple, acc_lines: tuple):
 
     axs[0, 0].set_title('Training')
     axs[0, 0].set_ylabel('Train Loss')
+    axs[0, 0].set_xlabel('Steps')
 
     axs[0, 1].set_title('Validation')
     axs[0, 1].set_ylabel('Validation Loss')
+    axs[0, 1].set_xlabel('Steps')
 
     axs[1, 0].set_ylabel('Training Accuracy (%)')
-    axs[1, 0].set_xlabel('Steps')
+    axs[1, 0].set_xlabel('Epochs')
 
     axs[1, 1].set_ylabel('Validation Accuracy(%)')
-    axs[1, 1].set_xlabel('Steps')
+    axs[1, 1].set_xlabel('Epochs')
 
+    axs[0, 0].grid()
+    axs[0, 1].grid()
+    axs[1, 0].grid()
+    axs[1, 1].grid()
     fig.tight_layout()
 
     put_em_on(fig)

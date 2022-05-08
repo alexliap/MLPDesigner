@@ -66,10 +66,7 @@ class MlpNetwok(LightningModule):
 
     def training_step(self, train_batch, batch_idx):
         x, y = train_batch
-        x = x.to(torch.float32)
-        y = y.to(torch.float32)
         out = self.forward(x)
-        out = out.to(torch.float32)
         loss = self.loss_f(out, y)
         self.train_loss_values.append(loss)
 
@@ -89,10 +86,7 @@ class MlpNetwok(LightningModule):
 
     def validation_step(self, val_batch, batch_idx):
         x, y = val_batch
-        x = x.to(torch.float32)
-        y = y.to(torch.float32)
         out = self.forward(x)
-        out = out.to(torch.float32)
         loss = self.loss_f(out, y)
         self.val_loss_values.append(loss)
 
