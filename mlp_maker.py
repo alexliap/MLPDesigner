@@ -96,7 +96,8 @@ class MlpMaker(tkinter.Tk):
             self.labels.append(Label(self.App, text=txt, width=10))
             self.labels[i].grid(row=i + 1, column=0, padx=25, pady=5)
 
-            self.input_spaces.append(Entry(self.App, background='white', width=10))
+            self.input_spaces.append(Entry(self.App, background='white',
+                                           width=10))
             self.input_spaces[i].grid(row=i + 1, column=1, padx=25, pady=5)
 
         self.labels.append(Label(self.App, text='Last Layer', width=10))
@@ -148,7 +149,8 @@ class MlpMaker(tkinter.Tk):
         self.dataset_choose.grid(row=r+5, column=6, padx=25, pady=5)
 
     def get_directory(self):
-        dataset_dir = tkinter.filedialog.askopenfilename(filetypes=[('CSV Files', '*.csv')])
+        dataset_dir = tkinter.filedialog.askopenfilename(filetypes=[('CSV Files',
+                                                                     '*.csv')])
         self.dataset_entry.insert(index=0, string=dataset_dir)
 
     def get_mlp_init_values(self):
