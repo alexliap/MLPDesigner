@@ -4,20 +4,23 @@ from PIL import ImageTk, Image
 
 
 class MlpMaker(tkinter.Tk):
-    def __init__(self):
+    def __init__(self, entry_clr: str):
         # Here, all the buttons, entries and labels are created for the whole
         # program.
+        self.entry_clr = entry_clr
+        if self.entry_clr != 'gray' or self.entry_clr != 'white':
+            raise ValueError('Only gray or white background colour is recommended for entries!')
         self.App = Tk()
         self.App.title('MLP Designer')
         self.App.call('wm', 'iconphoto', self.App._w,
                       ImageTk.PhotoImage(Image.open('icons8-neural-network-64.ico')))
         self.App.geometry('1000x600')
-        self.App['background'] = 'white'
+        self.App['background'] = 'black'
 
         self.layers_label = Label(self.App, text='Layers')
         self.layers_label.grid(row=0, column=0, padx=25, pady=5)
 
-        self.num_of_layers = Entry(self.App, background='white', width=10)
+        self.num_of_layers = Entry(self.App, background=self.entry_clr, width=10)
         self.num_of_layers.grid(row=0, column=1, padx=25, pady=5)
 
         self.labels = []
@@ -39,7 +42,7 @@ class MlpMaker(tkinter.Tk):
                                      'Tanh', 'ReLU')
         # Dropout percentage
         self.dropout_label = Label(self.App, text='Dropout(%)', width=15)
-        self.dropout_entry = Entry(self.App, background='white', width=10)
+        self.dropout_entry = Entry(self.App, background=self.entry_clr, width=10)
         # Optimizer dropdown menu
         self.optim_label = Label(self.App, text='Optimizer', width=15)
         self.optim = StringVar()
@@ -52,10 +55,10 @@ class MlpMaker(tkinter.Tk):
                                       'Binary Cross Entropy Loss')
         # Learning Rate
         self.lr_label = Label(self.App, text='Learning Rate', width=15)
-        self.lr_entry = Entry(self.App, background='white', width=10)
+        self.lr_entry = Entry(self.App, background= self.entry_clr, width=10)
         # Epochs
         self.ep_label = Label(self.App, text='Epochs', width=15)
-        self.ep_entry = Entry(self.App, background='white', width=10)
+        self.ep_entry = Entry(self.App, background= self.entry_clr, width=10)
         # Training Device
         self.tr_device_label = Label(self.App, text='Training Device', width=15)
         self.tr_device = StringVar()
@@ -75,7 +78,7 @@ class MlpMaker(tkinter.Tk):
                                     'Classification')
         # Dataset Entry
         self.dataset_label = Label(self.App, text='Train Dataset', width=15)
-        self.dataset_entry = Entry(self.App, background='white', width=80)
+        self.dataset_entry = Entry(self.App, background= self.entry_clr, width=80)
         self.dataset_choose = Button(self.App, text='Browse',
                                      command=self.get_directory,
                                      relief='groove', borderwidth=4)
@@ -88,7 +91,7 @@ class MlpMaker(tkinter.Tk):
         self.labels.append(Label(self.App, text='Input Layer', width=10))
         self.labels[0].grid(row=1, column=0, padx=25, pady=5)
 
-        self.input_spaces.append(Entry(self.App, background='white', width=10))
+        self.input_spaces.append(Entry(self.App, background= self.entry_clr, width=10))
         self.input_spaces[0].grid(row=1, column=1, padx=25, pady=5)
 
         for i in range(1, layers - 1):
@@ -96,14 +99,14 @@ class MlpMaker(tkinter.Tk):
             self.labels.append(Label(self.App, text=txt, width=10))
             self.labels[i].grid(row=i + 1, column=0, padx=25, pady=5)
 
-            self.input_spaces.append(Entry(self.App, background='white',
+            self.input_spaces.append(Entry(self.App, background= self.entry_clr,
                                            width=10))
             self.input_spaces[i].grid(row=i + 1, column=1, padx=25, pady=5)
 
         self.labels.append(Label(self.App, text='Last Layer', width=10))
         self.labels[layers - 1].grid(row=layers, column=0, padx=25, pady=5)
 
-        self.input_spaces.append(Entry(self.App, background='white', width=10))
+        self.input_spaces.append(Entry(self.App, background= self.entry_clr, width=10))
         self.input_spaces[layers - 1].grid(row=layers, column=1, padx=25, pady=5)
 
         self.to_details.grid(row=layers, column=3, padx=25, pady=5)

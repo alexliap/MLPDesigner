@@ -52,7 +52,7 @@ def train():
 
 
 if __name__ == '__main__':
-    app = MlpMaker()
+    app = MlpMaker('gray')
 
     refresh_button = tkinter.Button(app.App, text="Reset",
                                     command=app.refresh_window, relief='groove',
