@@ -6,10 +6,10 @@ from torch.optim import Adam, SGD
 import torch.nn.functional as F
 
 
-class MlpNetwok(LightningModule):
+class MlpNetwork(LightningModule):
     def __init__(self, num_of_layers, layer_sizes, activ_f, dropout, optim,
                  loss_f, lr, task):
-        super(MlpNetwok, self).__init__()
+        super(MlpNetwork, self).__init__()
         # Activation Function
         if activ_f == 'ReLU':
             self.activ_f = ReLU()

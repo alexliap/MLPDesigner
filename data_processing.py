@@ -8,18 +8,24 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
     NavigationToolbar2Tk
 import tkinter
 from PIL import ImageTk, Image
+from sklearn.preprocessing import LabelEncoder
 
 
 def get_dataset(df: DataFrame):
     # We assume that the dataframe's last column are the target values
     # (or y values).
+    label = LabelEncoder()
+
+    for col in list(df.columns.values):
+        if df[col].dtype == 'O':
+            df[col] = label.fit_transform(df[col])
+
     x = df.iloc[:, :len(df.columns)-1].values
     y = df.iloc[:, len(df.columns)-1].values
 
     y = y.reshape(len(y), 1)
 
-    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2,
-                                                        random_state=50)
+    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=50)
     # Scaling the data.
     scaler = StandardScaler()
     scaler.fit(x_train)

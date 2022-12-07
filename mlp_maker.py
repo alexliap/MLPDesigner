@@ -77,8 +77,8 @@ class MlpMaker(tkinter.Tk):
         self.dataset_label = Label(self.App, text='Train Dataset', width=15)
         self.dataset_entry = Entry(self.App, background='white', width=80)
         self.dataset_choose = Button(self.App, text='Browse',
-                                      command=self.get_directory,
-                                      relief='groove', borderwidth=4)
+                                     command=self.get_directory,
+                                     relief='groove', borderwidth=4)
 
     def layer_maker(self):
         # Managing the labels and entries for the amount of layers selected by

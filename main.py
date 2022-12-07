@@ -1,6 +1,6 @@
 import tkinter
 from mlp_maker import MlpMaker
-from network import MlpNetwok
+from network import MlpNetwork
 from pytorch_lightning import Trainer
 import pandas as pd
 import data_processing
@@ -8,11 +8,11 @@ import data_processing
 
 def train():
     parameters = app.get_mlp_init_values()
-    neuroniko = MlpNetwok(parameters['num_of_layers'],
-                          parameters['layer_sizes'],
-                          parameters['activ_f'], parameters['dropout'],
-                          parameters['optim'], parameters['loss_f'],
-                          parameters['lr'], parameters['task'])
+    neuroniko = MlpNetwork(parameters['num_of_layers'],
+                           parameters['layer_sizes'],
+                           parameters['activ_f'], parameters['dropout'],
+                           parameters['optim'], parameters['loss_f'],
+                           parameters['lr'], parameters['task'])
 
     if parameters['device'] == 'gpu':
         trainer = Trainer(gpus=1, max_epochs=parameters['epochs'])
