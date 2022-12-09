@@ -8,7 +8,7 @@ class MlpMaker(tkinter.Tk):
         # Here, all the buttons, entries and labels are created for the whole
         # program.
         self.entry_clr = entry_clr
-        if self.entry_clr != 'gray' or self.entry_clr != 'white':
+        if self.entry_clr != 'gray' and self.entry_clr != 'white':
             raise ValueError('Only gray or white background colour is recommended for entries!')
         self.App = Tk()
         self.App.title('MLP Designer')
