@@ -15,7 +15,7 @@ class MlpMaker(tkinter.Tk):
         self.App.call('wm', 'iconphoto', self.App._w,
                       ImageTk.PhotoImage(Image.open('icons8-neural-network-64.ico')))
         self.App.geometry('1000x600')
-        self.App['background'] = 'black'
+        self.App['background'] = self.entry_clr
 
         self.layers_label = Label(self.App, text='Layers')
         self.layers_label.grid(row=0, column=0, padx=25, pady=5)
